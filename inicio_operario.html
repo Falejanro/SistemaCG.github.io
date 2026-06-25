@@ -1,0 +1,2385 @@
+<!DOCTYPE html>
+<html lang="es">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Seguridad Ciudadana CG</title>
+    <!-- Agregar el enlace al favicon personalizado -->
+    <link rel="icon" type="image/png" href="https://i.postimg.cc/WbKKyCLp/logocg-Photoroom.png">
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;600;700&display=swap">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+    <style>
+        :root {
+            /* Variables para modo claro */
+            --background-color: #f0f4f8;
+            --text-color: #333;
+            --sidebar-bg: #1a2a44;
+            --sidebar-text: #fff;
+            --table-bg: #fff;
+            --table-border: #b0c4de;
+            --table-header-bg: #d1e7ff;
+            --table-text: #333;
+            --button-bg: #2ecc71;
+            --button-hover-bg: #27ae60;
+            --mensaje-exito-bg: #e0f7fa;
+            --mensaje-exito-text: #00796b;
+            --mensaje-error-bg: #ffebee;
+            --mensaje-error-text: #c62828;
+            --logout-button-bg: #e74c3c;
+            --logout-button-hover: #c0392b;
+            --theme-button-bg: #3498db;
+            --theme-button-hover: #2980b9;
+            --select-border: #ccc;
+            --input-bg: #fff;
+            --input-border: #ccc;
+            --unidad-item-bg: #fff;
+            --unidad-item-border: #ccc;
+        }
+
+        body.dark-mode {
+            --background-color: #1e2a38;
+            --text-color: #e0e0e0;
+            --sidebar-bg: #0f172a;
+            --sidebar-text: #d1d5db;
+            --table-bg: #2d3748;
+            --table-border: #4b5563;
+            --table-header-bg: #3b82f6;
+            --table-text: #e0e0e0;
+            --button-bg: #34d399;
+            --button-hover-bg: #2bb881;
+            --mensaje-exito-bg: #2d6a4f;
+            --mensaje-exito-text: #a3e635;
+            --mensaje-error-bg: #7f1d1d;
+            --mensaje-error-text: #f87171;
+            --logout-button-bg: #ef4444;
+            --logout-button-hover: #dc2626;
+            --theme-button-bg: #60a5fa;
+            --theme-button-hover: #3b82f6;
+            --select-border: #6b7280;
+            --input-bg: #374151;
+            --input-border: #6b7280;
+            --unidad-item-bg: #2d3748;
+            --unidad-item-border: #4b5563;
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Poppins', sans-serif;
+            background: var(--background-color);
+            color: var(--text-color);
+            min-height: 100vh;
+            display: flex;
+            transition: background 0.3s ease, color 0.3s ease;
+        }
+
+        .sidebar {
+            width: 250px;
+            background: var(--sidebar-bg);
+            color: var(--sidebar-text);
+            padding: 20px;
+            display: flex;
+            flex-direction: column;
+            justify-content: space-between;
+            height: 100vh;
+            position: fixed;
+            top: 0;
+            left: 0;
+        }
+
+        .sidebar .logo {
+            text-align: center;
+            margin-bottom: 30px;
+        }
+
+        .sidebar .logo h3 {
+            color: var(--sidebar-text);
+            font-size: 16px;
+            font-weight: 600;
+            margin-bottom: 10px;
+        }
+
+        .sidebar .logo img {
+            width: 80px;
+        }
+
+        .sidebar nav ul {
+            list-style: none;
+        }
+
+        .sidebar nav ul li {
+            margin: 20px 0;
+        }
+
+        .sidebar nav ul li a {
+            color: var(--sidebar-text);
+            text-decoration: none;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            padding: 10px;
+            border-radius: 5px;
+            transition: background 0.3s ease;
+            white-space: nowrap;
+        }
+
+        .sidebar nav ul li a:hover {
+            background: rgba(255, 255, 255, 0.1);
+        }
+
+        .sidebar nav ul li a i {
+            font-size: 18px;
+        }
+
+        .sidebar .theme-toggle {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            background: var(--theme-button-bg);
+            color: #fff;
+            border: none;
+            padding: 10px;
+            width: 100%;
+            border-radius: 5px;
+            cursor: pointer;
+            font-size: 14px;
+            font-weight: 600;
+            transition: background 0.3s ease;
+            margin: 20px 0;
+        }
+
+        .sidebar .theme-toggle:hover {
+            background: var(--theme-button-hover);
+        }
+
+        .sidebar .theme-toggle i {
+            font-size: 18px;
+        }
+
+        .sidebar .theme-toggle span {
+            white-space: nowrap;
+        }
+
+        .sidebar .logout {
+            margin-top: auto;
+        }
+
+        .sidebar .logout button {
+            background: var(--logout-button-bg);
+            color: #fff;
+            border: none;
+            padding: 10px;
+            width: 100%;
+            border-radius: 5px;
+            cursor: pointer;
+            font-size: 14px;
+            font-weight: 600;
+            transition: background 0.3s ease;
+        }
+
+        .sidebar .logout button:hover {
+            background: var(--logout-button-hover);
+        }
+
+        .main-content {
+            margin-left: 250px;
+            padding: 30px;
+            flex: 1;
+        }
+
+        header {
+            margin-bottom: 20px;
+            display: flex;
+            align-items: center;
+            gap: 20px;
+        }
+
+        header h1 {
+            font-size: 24px;
+            font-weight: 600;
+            color: var(--text-color);
+        }
+
+        header button#iniciarSistemaBtn {
+            border: none;
+            padding: 8px 15px;
+            border-radius: 5px;
+            cursor: pointer;
+            font-size: 14px;
+            font-weight: 600;
+            background: var(--button-bg);
+            color: #fff;
+            transition: background 0.3s ease;
+        }
+
+        header button#iniciarSistemaBtn:hover {
+            background: var(--button-hover-bg);
+        }
+
+        section {
+            margin-bottom: 30px;
+            display: none;
+        }
+
+        section.active {
+            display: block;
+        }
+
+        h2 {
+            font-size: 20px;
+            font-weight: 600;
+            margin-bottom: 15px;
+            color: var(--text-color);
+        }
+
+        h3 {
+            font-size: 18px;
+            font-weight: 600;
+            margin-top: 20px;
+            margin-bottom: 15px;
+            color: var(--text-color);
+        }
+
+        .mensaje {
+            margin-top: 20px;
+            padding: 10px;
+            border-radius: 5px;
+            text-align: center;
+            font-size: 14px;
+            font-weight: 500;
+        }
+
+        .mensaje.exito {
+            background: var(--mensaje-exito-bg);
+            color: var(--mensaje-exito-text);
+        }
+
+        .mensaje.error {
+            background: var(--mensaje-error-bg);
+            color: var(--mensaje-error-text);
+        }
+
+        .tabla-reportes {
+            width: 100%;
+            border-collapse: collapse;
+            margin-top: 20px;
+            background: var(--table-bg);
+            border: 1px solid var(--table-border);
+        }
+
+        .tabla-reportes th,
+        .tabla-reportes td {
+            padding: 10px;
+            text-align: left;
+            border: 1px solid var(--table-border);
+        }
+
+        .tabla-reportes th {
+            background: var(--table-header-bg);
+            color: var(--table-text);
+            font-weight: 600;
+        }
+
+        .tabla-reportes td {
+            color: var(--table-text);
+        }
+
+        /* Estilos para la celda de foto */
+        .foto-cell img {
+            max-width: 120px;
+            max-height: 80px;
+            object-fit: cover;
+            display: block;
+            cursor: pointer;
+            transition: transform 0.2s ease;
+        }
+
+        .foto-cell img:hover {
+            transform: scale(1.05);
+            box-shadow: 0 0 5px rgba(0, 0, 0, 0.3);
+        }
+
+        /* Estilos para el modal */
+        .modal {
+            display: none;
+            position: fixed;
+            z-index: 1000;
+            left: 0;
+            top: 0;
+            width: 100%;
+            height: 100%;
+            background-color: rgba(0, 0, 0, 0.7);
+            animation: fadeIn 0.3s ease;
+        }
+
+        .modal.show {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        @keyframes fadeIn {
+            from {
+                opacity: 0;
+            }
+            to {
+                opacity: 1;
+            }
+        }
+
+        .modal-content {
+            background-color: var(--table-bg);
+            color: var(--text-color);
+            padding: 20px;
+            border-radius: 10px;
+            max-width: 90vw;
+            max-height: 90vh;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            box-shadow: 0 4px 20px rgba(0, 0, 0, 0.3);
+            animation: slideIn 0.3s ease;
+        }
+
+        @keyframes slideIn {
+            from {
+                transform: translateY(-50px);
+                opacity: 0;
+            }
+            to {
+                transform: translateY(0);
+                opacity: 1;
+            }
+        }
+
+        .modal-img {
+            max-width: 100%;
+            max-height: 70vh;
+            object-fit: contain;
+            border-radius: 8px;
+            margin-bottom: 15px;
+        }
+
+        .modal-close-btn {
+            align-self: flex-end;
+            background: var(--logout-button-bg);
+            color: white;
+            border: none;
+            padding: 8px 15px;
+            border-radius: 5px;
+            cursor: pointer;
+            font-size: 14px;
+            transition: background 0.3s ease;
+        }
+
+        .modal-close-btn:hover {
+            background: var(--logout-button-hover);
+        }
+
+        .modal-info {
+            text-align: center;
+            margin-top: 10px;
+            font-size: 14px;
+            max-width: 80%;
+        }
+
+        .acciones {
+            display: flex;
+            flex-direction: column;
+            gap: 10px;
+            align-items: flex-start;
+            padding: 10px;
+        }
+
+        select {
+            padding: 5px;
+            border-radius: 5px;
+            border: 1px solid var(--select-border);
+            font-size: 14px;
+            width: 200px;
+            background: var(--input-bg);
+            color: var(--text-color);
+        }
+
+        .boton-atendido {
+            border: none;
+            padding: 8px 15px;
+            border-radius: 5px;
+            cursor: pointer;
+            font-size: 14px;
+            font-weight: 600;
+            background: var(--button-bg);
+            color: #fff;
+            transition: background 0.3s ease;
+            width: 200px;
+        }
+
+        .boton-atendido:hover {
+            background: var(--button-hover-bg);
+        }
+
+        .acciones input[type="text"] {
+            padding: 5px;
+            border-radius: 5px;
+            border: 1px solid var(--input-border);
+            font-size: 14px;
+            width: 200px;
+            background: var(--input-bg);
+            color: var(--text-color);
+        }
+
+        .acciones textarea {
+            padding: 5px;
+            border-radius: 5px;
+            border: 1px solid var(--input-border);
+            font-size: 14px;
+            width: 200px;
+            height: 60px;
+            background: var(--input-bg);
+            color: var(--text-color);
+            resize: vertical;
+        }
+
+        .toggle-unidad-policia {
+            position: relative;
+            display: inline-block;
+            width: 40px;
+            height: 20px;
+        }
+
+        .toggle-unidad-policia input {
+            opacity: 0;
+            width: 0;
+            height: 0;
+        }
+
+        .toggle-unidad-policia .slider {
+            position: absolute;
+            cursor: pointer;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background-color: #ccc;
+            transition: 0.4s;
+            border-radius: 20px;
+        }
+
+        .toggle-unidad-policia .slider:before {
+            position: absolute;
+            content: "";
+            height: 16px;
+            width: 16px;
+            left: 2px;
+            bottom: 2px;
+            background-color: white;
+            transition: 0.4s;
+            border-radius: 50%;
+        }
+
+        .toggle-unidad-policia input:checked+.slider {
+            background-color: #3498db;
+        }
+
+        .toggle-unidad-policia input:checked+.slider:before {
+            transform: translateX(20px);
+        }
+
+        .acciones label {
+            display: flex;
+            align-items: center;
+            gap: 5px;
+            font-size: 14px;
+            color: var(--text-color);
+        }
+
+        .lista-unidades {
+            display: flex;
+            flex-direction: column;
+            gap: 10px;
+        }
+
+        .unidad-item {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            background: var(--unidad-item-bg);
+            padding: 10px;
+            border: 1px solid var(--unidad-item-border);
+            border-radius: 5px;
+            color: var(--text-color);
+        }
+
+        .tabla-reportes tbody tr {
+            cursor: pointer;
+        }
+
+        .filtro-reportes {
+            margin-bottom: 20px;
+            display: flex;
+            gap: 10px;
+            align-items: center;
+        }
+
+        .filtro-reportes input[type="text"] {
+            padding: 8px;
+            border-radius: 5px;
+            border: 1px solid var(--input-border);
+            font-size: 14px;
+            width: 250px;
+            background: var(--input-bg);
+            color: var(--text-color);
+        }
+
+        .filtro-reportes button {
+            padding: 8px 15px;
+            border-radius: 5px;
+            border: none;
+            cursor: pointer;
+            font-size: 14px;
+            font-weight: 600;
+            background: var(--button-bg);
+            color: #fff;
+            transition: background 0.3s ease;
+        }
+
+        .filtro-reportes button:hover {
+            background: var(--button-hover-bg);
+        }
+
+        .filtro-unidades {
+            margin-bottom: 20px;
+            display: flex;
+            gap: 10px;
+            align-items: center;
+        }
+
+        .filtro-unidades input[type="text"] {
+            padding: 8px;
+            border-radius: 5px;
+            border: 1px solid var(--input-border);
+            font-size: 14px;
+            width: 250px;
+            background: var(--input-bg);
+            color: var(--text-color);
+        }
+
+        .filtro-unidades button {
+            padding: 8px 15px;
+            border-radius: 5px;
+            border: none;
+            cursor: pointer;
+            font-size: 14px;
+            font-weight: 600;
+            background: var(--button-bg);
+            color: #fff;
+            transition: background 0.3s ease;
+        }
+
+        .filtro-unidades button:hover {
+            background: var(--button-hover-bg);
+        }
+
+        .nuevo-reporte {
+            animation: parpadeo-fondo 1s infinite;
+            position: relative;
+        }
+
+        .luz-parpadeante {
+            display: inline-block;
+            width: 12px;
+            height: 12px;
+            background-color: red;
+            border-radius: 50%;
+            animation: parpadeo-luz 1s infinite;
+            position: absolute;
+            top: 5px;
+            left: 5px;
+            z-index: 1;
+        }
+
+        @keyframes parpadeo-fondo {
+            0% {
+                background-color: rgba(255, 0, 0, 0.3);
+            }
+
+            50% {
+                background-color: transparent;
+            }
+
+            100% {
+                background-color: rgba(255, 0, 0, 0.3);
+            }
+        }
+
+        @keyframes parpadeo-luz {
+            0% {
+                opacity: 1;
+            }
+
+            50% {
+                opacity: 0;
+            }
+
+            100% {
+                opacity: 1;
+            }
+        }
+
+        @media (max-width: 768px) {
+            .sidebar {
+                width: 60px;
+                padding: 10px;
+            }
+
+            .sidebar .logo h3 {
+                display: none;
+            }
+
+            .sidebar .logo img {
+                width: 40px;
+            }
+
+            .sidebar nav ul li a span {
+                display: none;
+            }
+
+            .sidebar .theme-toggle span {
+                display: none;
+            }
+
+            .sidebar .logout button span {
+                display: none;
+            }
+
+            .sidebar .logout button {
+                font-size: 12px;
+                padding: 8px;
+            }
+
+            .main-content {
+                margin-left: 60px;
+                padding: 15px;
+            }
+
+            header h1 {
+                font-size: 20px;
+            }
+
+            h2 {
+                font-size: 18px;
+            }
+
+            .tabla-reportes {
+                font-size: 12px;
+            }
+
+            .tabla-reportes th,
+            .tabla-reportes td {
+                padding: 8px;
+            }
+
+            .filtro-reportes input[type="text"] {
+                width: 150px;
+            }
+
+            .filtro-unidades input[type="text"] {
+                width: 150px;
+            }
+        }
+
+        @media (max-width: 480px) {
+            .sidebar {
+                width: 50px;
+                padding: 5px;
+            }
+
+            .main-content {
+                margin-left: 50px;
+                padding: 10px;
+            }
+
+            header h1 {
+                font-size: 18px;
+            }
+
+            h2 {
+                font-size: 16px;
+            }
+
+            .tabla-reportes {
+                font-size: 10px;
+            }
+
+            .tabla-reportes th,
+            .tabla-reportes td {
+                padding: 6px;
+            }
+
+            .filtro-reportes input[type="text"] {
+                width: 120px;
+            }
+
+            .filtro-reportes button {
+                padding: 6px 10px;
+                font-size: 12px;
+            }
+
+            .filtro-unidades input[type="text"] {
+                width: 120px;
+            }
+
+            .filtro-unidades button {
+                padding: 6px 10px;
+                font-size: 12px;
+            }
+        }
+    </style>
+</head>
+
+<body>
+    <!-- Barra lateral -->
+    <div class="sidebar">
+        <div>
+            <div class="logo">
+                <h3>Seguridad Ciudadana CG</h3>
+                <img src="https://i.postimg.cc/WbKKyCLp/logocg-Photoroom.png" alt="Seguridad Ciudadana CG">
+            </div>
+            <nav>
+                <ul>
+                    <li><a href="#" onclick="cargarSeccion('reportesPendientes')"><i class="fas fa-home"></i>
+                            <span>Reportes Pendientes</span></a></li>
+                    <li><a href="#" onclick="cargarSeccion('reportesAtendidos')"><i class="fas fa-history"></i>
+                            <span>Reportes Atendidos</span></a></li>
+                    <li><a href="#" onclick="cargarSeccion('unidadesDisponibles')"><i class="fas fa-users"></i>
+                            <span>Unidades Disponibles</span></a></li>
+                </ul>
+            </nav>
+            <button class="theme-toggle" onclick="toggleTheme()">
+                <i class="fas fa-moon"></i>
+                <span>Modo Oscuro</span>
+            </button>
+        </div>
+
+        <!-- Información del operario -->
+        <div class="operario-card" style="
+             background: rgba(255,255,255,0.07);
+             border-radius: 10px;
+             padding: 18px 10px 12px 10px;
+             margin: 25px 0 10px 0;
+             text-align: center;
+             box-shadow: 0 2px 8px rgba(0,0,0,0.07);">
+            <div style="margin-bottom: 8px;">
+                <i class="fas fa-user-shield" style="font-size: 28px; color: #a3e635;"></i>
+            </div>
+            <div style="font-size: 15px; color: #fff; font-weight: 600;">
+                <span id="usuario-operario">Cargando...</span>
+            </div>
+            <!--
+            <div style="font-size: 13px; color: #d1d5db; margin-top: 2px;">
+                Sesiones: <span id="sesiones-operario">-</span>
+            </div>
+            -->
+        </div>
+
+        <div class="logout">
+            <button onclick="cerrarSesion()">
+                <i class="fas fa-sign-out-alt"></i>
+                <span>Cerrar Sesión</span>
+            </button>
+        </div>
+    </div>
+
+    <!-- Contenido principal -->
+    <div class="main-content">
+        <header>
+            <h1>Gestión de Reportes</h1>
+            <button id="iniciarSistemaBtn" onclick="iniciarSistema()">Iniciar Sistema</button>
+            <p id="mensajeAudio" class="mensaje error"></p>
+        </header>
+        <!-- Elemento de audio para la sirena -->
+        <audio id="sirenaAudio" preload="auto">
+            <source src="sirena.mp3" type="audio/mp3">
+            Your browser does not support the audio element.
+        </audio>
+
+        <!-- Sección de Reportes Pendientes -->
+        <section id="reportesPendientes" class="active">
+            <h2>Reportes Pendientes</h2>
+            <table id="tablaReportesPendientes" class="tabla-reportes">
+                <thead>
+                    <tr>
+                        <th>Fecha</th>
+                        <th>Hora</th>
+                        <th>Tipo</th>
+                        <th>Ubicación</th>
+                        <th>Foto</th>
+                        <th>Nombre</th>
+                        <th>Teléfono</th>
+                        <th>Acciones</th>
+                    </tr>
+                </thead>
+                <tbody id="cuerpoTablaPendientes">
+                    <!-- Los reportes pendientes se cargarán dinámicamente aquí -->
+                </tbody>
+            </table>
+
+            <h3>Reportes En Proceso</h3>
+            <table id="tablaReportesEnProceso" class="tabla-reportes">
+                <thead>
+                    <tr>
+                        <th>Fecha</th>
+                        <th>Hora</th>
+                        <th>Tipo</th>
+                        <th>Ubicación</th>
+                        <th>Foto</th>
+                        <th>Nombre</th>
+                        <th>Teléfono</th>
+                        <th>Acciones</th>
+                    </tr>
+                </thead>
+                <tbody id="cuerpoTablaEnProceso">
+                    <!-- Los reportes en proceso se cargarán dinámicamente aquí -->
+                </tbody>
+            </table>
+
+            <div id="mensajePendientes" class="mensaje"></div>
+        </section>
+
+        <!-- Sección de Reportes Atendidos -->
+        <section id="reportesAtendidos">
+            <h2>Reportes Atendidos</h2>
+            <div class="filtro-reportes">
+                <input type="text" id="filtroInput" placeholder="Filtrar por cualquier campo..."
+                    onkeyup="filtrarReportesAtendidos()">
+                <button onclick="filtrarReportesAtendidos()">Filtrar</button>
+            </div>
+            <table id="tablaReportesAtendidos" class="tabla-reportes">
+                <thead>
+                    <tr>
+                        <th>Fecha</th>
+                        <th>Hora</th>
+                        <th>Tipo</th>
+                        <th>Ubicación</th>
+                        <th>Nombre</th>
+                        <th>Teléfono</th>
+                        <th>Unidad Asignada</th>
+                        <th>Atendido Por</th>
+                        <th>Unidad con policia</th>
+                        <th>Conductor</th>
+                        <th>Comentarios</th>
+                    </tr>
+                </thead>
+                <tbody id="cuerpoTablaAtendidos">
+                    <!-- Los reportes atendidos se cargarán dinámicamente aquí -->
+                </tbody>
+            </table>
+            <div id="mensajeAtendidos" class="mensaje"></div>
+        </section>
+
+        <!-- Sección de Unidades Disponibles -->
+        <section id="unidadesDisponibles">
+            <h2>Unidades Disponibles</h2>
+            <div class="filtro-unidades">
+                <input type="text" id="filtroUnidadesInput" placeholder="Filtrar por nombre, ID o estado..."
+                    onkeyup="filtrarUnidades()">
+                <button onclick="filtrarUnidades()">Filtrar</button>
+            </div>
+
+
+            <div id="listaUnidades" class="lista-unidades">
+                <!-- Las unidades se cargarán dinámicamente aquí -->
+            </div>
+            <div id="mensajeUnidades" class="mensaje"></div>
+        </section>
+
+        <!-- Modal de confirmación para cerrar sesión -->
+        <div id="confirmLogoutModal" class="login-modal"
+            style="display:none; position:fixed; z-index:9999; left:0; top:0; right:0; bottom:0; background:rgba(0,0,0,0.5); align-items:center; justify-content:center;">
+            <div class="login-modal-content"
+                style="background:#111827; padding:30px 40px; border-radius:12px; box-shadow:0 0 25px rgba(0,255,255,0.4); display:flex; flex-direction:column; align-items:center;">
+                <h2 style="color:#fff; font-size:22px; font-weight:700; margin-bottom:10px;">Cerrar Sesión</h2>
+                <p style="color:#fff; font-size:16px; font-weight:500;">¿Estás seguro que quieres cerrar sesión?</p>
+                <div style="margin-top:25px; display:flex; gap:15px;">
+                    <button id="confirmLogoutBtn"
+                        style="background:#e74c3c; color:#fff; border:none; padding:10px 22px; border-radius:7px; font-weight:bold; font-size:15px; cursor:pointer;">Sí,
+                        cerrar sesión</button>
+                    <button id="cancelLogoutBtn"
+                        style="background:#3498db; color:#fff; border:none; padding:10px 22px; border-radius:7px; font-weight:bold; font-size:15px; cursor:pointer;">Cancelar</button>
+                </div>
+            </div>
+        </div>
+
+    </div>
+    </div>
+
+    <!-- Firebase SDK -->
+    <script src="https://www.gstatic.com/firebasejs/9.22.2/firebase-app-compat.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/9.22.2/firebase-auth-compat.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/9.22.2/firebase-database-compat.js"></script>
+    <script>
+        // Configuración de Firebase
+        const firebaseConfig = {
+            apiKey: "AIzaSyDe9s28ijKcxvZVat9LHRFphOwrgXJ6oF4",
+            authDomain: "seguridad-ciudadana-cg.firebaseapp.com",
+            databaseURL: "https://seguridad-ciudadana-cg-default-rtdb.firebaseio.com",
+            projectId: "seguridad-ciudadana-cg",
+            storageBucket: "seguridad-ciudadana-cg.firebasestorage.app",
+            messagingSenderId: "1064543544376",
+            appId: "1:1064543544376:web:4c15229918819cda9d72cd",
+            measurementId: "G-4Y1SJ4ZVXP"
+        };
+
+        // Inicializar Firebase
+        try {
+            firebase.initializeApp(firebaseConfig);
+            console.log("Firebase inicializado correctamente");
+        } catch (error) {
+            console.error("Error al inicializar Firebase:", error);
+            alert("No se pudo conectar con la base de datos. Por favor, intenta de nuevo más tarde.");
+        }
+
+        firebase.auth().onAuthStateChanged(async function (user) {
+            if (user) {
+                const snap = await firebase.database().ref("operarios/" + user.uid).once("value");
+                const data = snap.val();
+                // Muestra el nombre real del operario (ajusta el campo si usas otro)
+                const usuarioOperarioEl = document.getElementById("usuario-operario");
+                if (usuarioOperarioEl) usuarioOperarioEl.textContent = data && data.nombre ? data.nombre : (data && data.usuario ? data.usuario : user.email);
+                const sesionesOperarioEl = document.getElementById("sesiones-operario");
+                if (sesionesOperarioEl) sesionesOperarioEl.textContent = data && data.sesiones ? data.sesiones : "1";
+            }
+        });
+
+        const database = firebase.database();
+        const auth = firebase.auth();
+
+        let unidadesDisponibles = [];
+        const unidadesIniciales = [
+            { id: 'OD-1462', nombre: 'Camioneta OD-1462', estado: 'Operativa' },
+            { id: 'OD-1472', nombre: 'Camioneta OD-1472', estado: 'Operativa' },
+            { id: 'EU-3423', nombre: 'Motos EU-3423', estado: 'Operativa' },
+            { id: 'EU-3435', nombre: 'Motos EU-3435', estado: 'Operativa' },
+            { id: 'EU-3436', nombre: 'Motos EU-3436', estado: 'Operativa' }
+        ];
+        let initialTimestamp = Date.now();
+        let reportesPendientesMap = new Map();
+        let unidadesAsignadasEnProceso = new Set();
+        let audioDesbloqueado = false;
+
+        // Mostrar mensaje inicial para la sirena
+        document.addEventListener('DOMContentLoaded', () => {
+            const mensajeAudio = document.getElementById('mensajeAudio');
+            if (mensajeAudio) {
+                mensajeAudio.textContent = "Por favor, haz clic en 'Iniciar Sistema' para habilitar la sirena.";
+                mensajeAudio.classList.add('error');
+            }
+        });
+
+        // Función para inicializar unidades en Firebase
+        async function inicializarUnidades() {
+            try {
+                const snapshot = await database.ref('unidades').once('value');
+                if (!snapshot.exists()) {
+                    console.log("No hay unidades en Firebase. Inicializando unidades...");
+                    const updates = {};
+                    unidadesIniciales.forEach(unidad => {
+                        updates[unidad.id] = { nombre: unidad.nombre, estado: unidad.estado };
+                    });
+                    await database.ref('unidades').update(updates);
+                    console.log("Unidades inicializadas en Firebase:", unidadesIniciales);
+                } else {
+                    console.log("Las unidades ya existen en Firebase, no se requiere inicialización.");
+                }
+            } catch (error) {
+                console.error("Error al inicializar unidades:", error);
+            }
+        }
+
+        // Función para convertir fecha de DD/MM/YYYY a YYYY-MM-DD
+        function convertirFecha(fecha) {
+            if (!fecha) return 'No disponible';
+            const partes = fecha.split('/');
+            if (partes.length !== 3) return fecha;
+            return `${partes[2]}-${partes[1].padStart(2, '0')}-${partes[0].padStart(2, '0')}`;
+        }
+
+        // Función para convertir hora de "HH:MM a.m./p.m." a formato 24 horas "HH:MM"
+        function convertirHora(hora) {
+            if (!hora) return 'No disponible';
+            const partes = hora.match(/(\d{1,2}):(\d{2})\s*(a\.m\.|p\.m\.)/i);
+            if (!partes) return hora;
+            let horas = parseInt(partes[1], 10);
+            const minutos = partes[2];
+            const periodo = partes[3].toLowerCase();
+            if (periodo === 'p.m.' && horas !== 12) horas += 12;
+            else if (periodo === 'a.m.' && horas === 12) horas = 0;
+            return `${horas.toString().padStart(2, '0')}:${minutos}`;
+        }
+
+        // Función para obtener el timestamp de un reporte
+        function getReporteTimestamp(reporte) {
+            if (reporte.fechaCreado) {
+                const timestamp = new Date(reporte.fechaCreado).getTime();
+                if (!isNaN(timestamp)) return timestamp;
+            }
+            return Date.now();
+        }
+
+        // Función para obtener el nombre del operario por su UID
+        async function obtenerNombreOperario(uid) {
+            if (!uid) return 'Desconocido';
+            try {
+                const snapshot = await database.ref(`operarios/${uid}`).once('value');
+                const operario = snapshot.val();
+                return operario && operario.usuario ? operario.usuario : 'Desconocido';
+            } catch (error) {
+                console.error(`Error al obtener nombre del operario ${uid}:`, error);
+                return 'Desconocido';
+            }
+        }
+
+        // Cargar unidades disponibles desde Firebase
+        async function cargarUnidadesDesdeFirebase() {
+            try {
+                const ref = database.ref('unidades');
+                // Carga inicial
+                const snapshot = await ref.once('value');
+                unidadesDisponibles = [];
+                snapshot.forEach(childSnapshot => {
+                    const unidad = childSnapshot.val();
+                    // Incluir solo unidades que no estén inhabilitadas
+                    if (unidad.estado !== 'No Operativa') {
+                        unidadesDisponibles.push({
+                            id: childSnapshot.key,
+                            nombre: unidad.nombre,
+                            estado: unidad.estado
+                        });
+                    }
+                });
+                console.log("Unidades cargadas desde Firebase (Operario):", unidadesDisponibles);
+                cargarUnidadesDisponibles();
+
+                // Listener para cambios en tiempo real
+                ref.on('child_changed', (snapshot) => {
+                    const unidadActualizada = snapshot.val();
+                    const unidadId = snapshot.key;
+                    const index = unidadesDisponibles.findIndex(u => u.id === unidadId);
+                    if (unidadActualizada.estado !== 'No Operativa') {
+                        if (index !== -1) {
+                            // Actualizar la unidad existente
+                            unidadesDisponibles[index] = {
+                                id: unidadId,
+                                nombre: unidadActualizada.nombre,
+                                estado: unidadActualizada.estado
+                            };
+                        } else {
+                            // Si no existe y no está inhabilitada, agregarla
+                            unidadesDisponibles.push({
+                                id: unidadId,
+                                nombre: unidadActualizada.nombre,
+                                estado: unidadActualizada.estado
+                            });
+                        }
+                    } else if (index !== -1) {
+                        // Si se inhabilita, removerla
+                        unidadesDisponibles.splice(index, 1);
+                    }
+                    console.log("Unidad actualizada en tiempo real (Operario):", unidadesDisponibles);
+                    cargarUnidadesDisponibles();
+                    // Actualizar las tablas de reportes para reflejar los cambios
+                    cargarReportesPendientes();
+                });
+
+                // Listener para unidades eliminadas
+                ref.on('child_removed', (snapshot) => {
+                    const unidadId = snapshot.key;
+                    unidadesDisponibles = unidadesDisponibles.filter(u => u.id !== unidadId);
+                    console.log("Unidad eliminada en tiempo real (Operario):", unidadesDisponibles);
+                    cargarUnidadesDisponibles();
+                    cargarReportesPendientes();
+                });
+
+                // Listener para nuevas unidades
+                ref.on('child_added', (snapshot) => {
+                    const unidadId = snapshot.key;
+                    const unidadNueva = snapshot.val();
+                    const existe = unidadesDisponibles.some(u => u.id === unidadId);
+                    if (!existe && unidadNueva.estado !== 'No Operativa') {
+                        // Agregar solo si no está inhabilitada
+                        unidadesDisponibles.push({
+                            id: unidadId,
+                            nombre: unidadNueva.nombre,
+                            estado: unidadNueva.estado
+                        });
+                        console.log("Nueva unidad agregada en tiempo real (Operario):", unidadesDisponibles);
+                        cargarUnidadesDisponibles();
+                        cargarReportesPendientes();
+                    }
+                });
+            } catch (error) {
+                console.error("Error al cargar unidades (Operario):", error);
+                const mensajeUnidades = document.getElementById('mensajeUnidades');
+                if (mensajeUnidades) {
+                    mensajeUnidades.textContent = "Error al cargar unidades: " + error.message;
+                    mensajeUnidades.classList.remove('exito');
+                    mensajeUnidades.classList.add('error');
+                }
+            }
+        }
+
+        // Desbloquear audio
+        function desbloquearAudio() {
+            const sirenaAudio = document.getElementById('sirenaAudio');
+            if (sirenaAudio) {
+                sirenaAudio.play().then(() => {
+                    sirenaAudio.pause();
+                    sirenaAudio.currentTime = 0;
+                    audioDesbloqueado = true;
+                    console.log("Audio desbloqueado con éxito.");
+                    const mensajeAudio = document.getElementById('mensajeAudio');
+                    if (mensajeAudio) {
+                        mensajeAudio.textContent = "Sirena habilitada.";
+                        mensajeAudio.classList.remove('error');
+                        mensajeAudio.classList.add('exito');
+                    }
+                }).catch(error => {
+                    console.error("Error al desbloquear audio:", error);
+                    const mensajeAudio = document.getElementById('mensajeAudio');
+                    if (mensajeAudio) {
+                        mensajeAudio.textContent = "Error al desbloquear audio: " + error.message;
+                        mensajeAudio.classList.remove('exito');
+                        mensajeAudio.classList.add('error');
+                    }
+                });
+            }
+        }
+
+        // Reproducir sirena
+        function reproducirSirena() {
+            const sirenaAudio = document.getElementById('sirenaAudio');
+            if (sirenaAudio && audioDesbloqueado) {
+                sirenaAudio.currentTime = 0;
+                sirenaAudio.play().catch(error => {
+                    console.error("Error al reproducir la sirena:", error);
+                    const mensajeAudio = document.getElementById('mensajeAudio');
+                    if (mensajeAudio) {
+                        mensajeAudio.textContent = "Error al reproducir la sirena: " + error.message;
+                        mensajeAudio.classList.remove('exito');
+                        mensajeAudio.classList.add('error');
+                    }
+                });
+            } else {
+                console.warn("Audio no desbloqueado o sirenaAudio no encontrado.");
+                const mensajeAudio = document.getElementById('mensajeAudio');
+                if (mensajeAudio) {
+                    mensajeAudio.textContent = audioDesbloqueado ? "Sirena no encontrada." : "Por favor, inicia el sistema para habilitar la sirena.";
+                    mensajeAudio.classList.remove('exito');
+                    mensajeAudio.classList.add('error');
+                }
+            }
+        }
+
+        // Detener sirena
+        function detenerSirena() {
+            const sirenaAudio = document.getElementById('sirenaAudio');
+            if (sirenaAudio && !sirenaAudio.paused) {
+                sirenaAudio.pause();
+                sirenaAudio.currentTime = 0;
+                console.log("Sirena detenida por interacción del usuario");
+            }
+        }
+
+        // Resaltar fila
+        function resaltarFila(fila) {
+            if (fila) {
+                console.log("Resaltando fila:", fila);
+                fila.classList.add('nuevo-reporte');
+                const luz = fila.querySelector('.luz-parpadeante');
+                if (luz) {
+                    console.log("Luz encontrada, mostrando:", luz);
+                    luz.style.display = 'inline-block';
+                } else {
+                    console.warn("No se encontró luz-parpadeante en la fila:", fila);
+                }
+                setTimeout(() => {
+                    console.log("Finalizando resaltado de la fila:", fila);
+                    fila.classList.remove('nuevo-reporte');
+                    if (luz) luz.style.display = 'none';
+                }, 5000);
+            } else {
+                console.error("Fila no encontrada para resaltar");
+            }
+        }
+
+        // Generar HTML de una fila
+        function generarFilaHTML(reporte, claveUnica) {
+            const textoBoton = reporte.estado === 'pendiente' ? 'Marcar como En Proceso' : 'Marcar como Atendido';
+            const comentarioHTML = reporte.estado === 'en proceso' ? `
+        <div>
+            <textarea placeholder="Agregar comentario..." onblur="actualizarComentario('${reporte.id}', '${reporte.categoria}', this.value)">${reporte.comentario || ''}</textarea>
+        </div>
+    ` : '';
+
+            // Filtrar unidades disponibles para asignación: solo las 'Operativas' y no asignadas
+            const unidadesFiltradas = unidadesDisponibles.filter(unidad =>
+                unidad.estado === 'Operativa' && !unidadesAsignadasEnProceso.has(unidad.id)
+            );
+
+            // Determinar cómo mostrar los campos según el estado del reporte
+            const unidadAsignadaHTML = reporte.estado === 'pendiente' ? `
+        <div>
+            <select onchange="asignarUnidad('${reporte.id}', '${reporte.categoria}', this.value)">
+                <option value="">Asignar Unidad</option>
+                ${unidadesFiltradas
+                    .map(unidad => `<option value="${unidad.id}" ${reporte.unidadAsignada === unidad.id ? 'selected' : ''}>${unidad.nombre}</option>`)
+                    .join('')}
+            </select>
+        </div>
+    ` : `
+        <div>
+            <p>Unidad Asignada: ${unidadesDisponibles.find(u => u.id === reporte.unidadAsignada)?.nombre || 'No asignada'}</p>
+        </div>
+    `;
+
+            const nombreConductorHTML = reporte.estado === 'pendiente' ? `
+        <div>
+            <input type="text" placeholder="Nombre del conductor" value="${reporte.nombreConductor || ''}" onblur="actualizarNombreConductor('${reporte.id}', '${reporte.categoria}', this.value)">
+        </div>
+    ` : `
+        <div>
+            <p>Conductor: ${reporte.nombreConductor || 'No especificado'}</p>
+        </div>
+    `;
+
+            const unidadConPoliciaHTML = reporte.estado === 'pendiente' ? `
+        <div>
+            <label>
+                Unidad con Policía:
+                <span class="toggle-unidad-policia">
+                    <input type="checkbox" ${reporte.unidadConPolicia ? 'checked' : ''} onchange="actualizarUnidadConPolicia('${reporte.id}', '${reporte.categoria}', this.checked)">
+                    <span class="slider"></span>
+                </span>
+            </label>
+        </div>
+    ` : `
+        <div>
+            <p>Unidad con Policía: ${reporte.unidadConPolicia ? 'Sí' : 'No'}</p>
+        </div>
+    `;
+
+            // Celda de foto (se rellenará dinámicamente si existe el archivo en Storage)
+            const fotoCellHTML = `<td class="foto-cell"><img src="" style="max-width:120px;max-height:80px;display:block;cursor:pointer;" alt="Evidencia" onclick="abrirModalFoto(event)"></td>`;
+
+            return `
+        <td><span class="luz-parpadeante" style="display: none;"></span>${reporte.fecha || 'No disponible'}</td>
+        <td>${reporte.hora || 'No disponible'}</td>
+        <td>${reporte.tipo || 'No disponible'}</td>
+        <td>${reporte.ubicacion || 'No disponible'}</td>
+        ${fotoCellHTML}
+        <td>${reporte.nombre || 'Anónimo'}</td>
+        <td>${reporte.telefono || 'No disponible'}</td>
+        <td class="acciones">
+            ${unidadAsignadaHTML}
+            <div>
+                <button class="boton-atendido" onclick="atenderReporte('${reporte.id}', '${reporte.categoria}')">${textoBoton}</button>
+            </div>
+            ${nombreConductorHTML}
+            ${unidadConPoliciaHTML}
+            ${comentarioHTML}
+        </td>
+    `;
+        }
+
+        /**
+         * Abre el modal con la foto en grande
+         */
+        function abrirModalFoto(event) {
+            const img = event.target;
+            if (!img.src || img.src.trim() === '') return;
+            
+            const modal = document.getElementById('modalFoto');
+            const modalImg = document.getElementById('imgModal');
+            modalImg.src = img.src;
+            modal.classList.add('show');
+        }
+
+        /**
+         * Cierra el modal de foto
+         */
+        function cerrarModalFoto() {
+            const modal = document.getElementById('modalFoto');
+            modal.classList.remove('show');
+        }
+
+        function cargarFotoEnFila(fila, categoria, reporteId, telefonoReporte, rutaFotoDirecta) {
+            try {
+                const imgEl = fila.querySelector('.foto-cell img');
+                if (!imgEl) return;
+
+                const placeholder = 'data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" width="120" height="80"><rect width="100%" height="100%" fill="%23e6e6e6"/><text x="50%" y="50%" dominant-baseline="middle" text-anchor="middle" fill="%23888888" font-size="12">Sin evidencia</text></svg>';
+
+                // Si la URL directa es válida, la intentamos cargar primero
+                if (rutaFotoDirecta && rutaFotoDirecta.trim() !== "") {
+                    imgEl.src = rutaFotoDirecta;
+
+                    // CONTROL DE ERRORES: Si la URL directa da error (ej: por falta de Token o CORS), aplicamos el respaldo
+                    imgEl.onerror = function () {
+                        console.warn(`⚠️ URL directa rota para el reporte ${reporteId}. Buscando respaldo...`);
+                        imgEl.onerror = null; // Evitar bucles
+                        imgEl.src = placeholder;
+                        solicitarUrlRespaldo(imgEl, telefonoReporte);
+                    };
+                    return;
+                }
+
+                // Si no hay URL directa, vamos directo al respaldo por teléfono
+                solicitarUrlRespaldo(imgEl, telefonoReporte);
+
+            } catch (err) {
+                console.error('Error en cargarFotoEnFila:', err);
+            }
+        }
+
+        /**
+         * Función auxiliar para obtener una URL autenticada y segura desde Storage.
+         */
+        function solicitarUrlRespaldo(imgEl, telefonoReporte) {
+            if (firebase && firebase.storage && telefonoReporte) {
+                const rootRef = firebase.storage().ref('evidencias');
+                const telefonoBuscado = String(telefonoReporte).trim();
+
+                rootRef.listAll()
+                    .then(rootList => {
+                        if (rootList && rootList.items && rootList.items.length > 0) {
+                            const match = rootList.items.find(item => item.name && item.name.includes(telefonoBuscado));
+                            if (match) {
+                                // getDownloadURL() siempre genera el token firmado correcto de Firebase
+                                match.getDownloadURL()
+                                    .then(url => {
+                                        imgEl.src = url;
+                                    })
+                                    .catch(err => console.warn('Error al obtener URL firmada:', err.message));
+                            }
+                        }
+                    })
+                    .catch(err => console.error('Error al listar Storage:', err));
+            }
+        }
+
+        /**
+         * Renderiza el reporte en la interfaz web gestionando los estados y flujos de audio.
+         */
+        function renderizarReporte(reporte, reporteId, categoria, playSirena = false) {
+            const cuerpoTablaPendientes = document.getElementById('cuerpoTablaPendientes');
+            const cuerpoTablaEnProceso = document.getElementById('cuerpoTablaEnProceso');
+            const mensajePendientes = document.getElementById('mensajePendientes');
+
+            if (!cuerpoTablaPendientes || !cuerpoTablaEnProceso || !mensajePendientes || !document.getElementById('sirenaAudio')) {
+                console.error("Elementos del DOM requeridos no se encontraron en la página.");
+                return;
+            }
+
+            const claveUnica = `${categoria}/${reporteId}`;
+
+            const fechaConvertida = convertirFecha(reporte.fecha);
+            const horaConvertida = convertirHora(reporte.hora);
+
+            if (!reporte.fechaCreado) {
+                reporte.fechaCreado = new Date().toISOString();
+                database.ref(`${categoria}/${reporteId}`).update({ fechaCreado: reporte.fechaCreado });
+            }
+
+            const reporteTimestamp = getReporteTimestamp(reporte);
+
+            const reporteData = {
+                id: reporteId,
+                categoria,
+                ...reporte,
+                estado: reporte.estado || 'pendiente',
+                fecha: fechaConvertida,
+                hora: horaConvertida,
+                unidadConPolicia: reporte.unidadConPolicia || false,
+                nombreConductor: reporte.nombreConductor || '',
+                comentario: reporte.comentario || '',
+                timestamp: reporteTimestamp
+            };
+
+            console.log(`Procesando reporte ${claveUnica}:`, reporteData);
+
+            if (reporteData.estado === 'en proceso' && reporteData.unidadAsignada) {
+                unidadesAsignadasEnProceso.add(reporteData.unidadAsignada);
+            } else if (reporteData.estado === 'atendido' || !reporteData.unidadAsignada) {
+                unidadesAsignadasEnProceso.delete(reporteData.unidadAsignada);
+            }
+
+            reportesPendientesMap.set(claveUnica, reporteData);
+
+            const fila = document.createElement('tr');
+            fila.setAttribute('data-clave', claveUnica);
+            fila.setAttribute('data-id', reporteId);
+            fila.innerHTML = generarFilaHTML(reporteData, claveUnica);
+            fila.onclick = detenerSirena;
+
+            // Carga inicial de la foto
+            cargarFotoEnFila(fila, categoria, reporteId, reporte.telefono, reporte.rutaFoto);
+
+            const filaPendiente = cuerpoTablaPendientes.querySelector(`tr[data-clave="${claveUnica}"]`);
+            const filaEnProceso = cuerpoTablaEnProceso.querySelector(`tr[data-clave="${claveUnica}"]`);
+
+            if (reporteData.estado === 'pendiente') {
+                if (filaEnProceso) cuerpoTablaEnProceso.removeChild(filaEnProceso);
+                if (filaPendiente) cuerpoTablaPendientes.replaceChild(fila, filaPendiente);
+                else cuerpoTablaPendientes.insertBefore(fila, cuerpoTablaPendientes.firstChild);
+
+                if (playSirena) {
+                    resaltarFila(fila);
+                    reproducirSirena();
+                }
+                ordenarTabla(cuerpoTablaPendientes);
+
+            } else if (reporteData.estado === 'en proceso') {
+                if (filaPendiente) cuerpoTablaPendientes.removeChild(filaPendiente);
+                if (filaEnProceso) cuerpoTablaEnProceso.replaceChild(fila, filaEnProceso);
+                else cuerpoTablaEnProceso.insertBefore(fila, cuerpoTablaEnProceso.firstChild);
+
+                if (playSirena) {
+                    resaltarFila(fila);
+                    reproducirSirena();
+                }
+                ordenarTabla(cuerpoTablaEnProceso);
+
+            } else if (reporteData.estado === 'atendido') {
+                if (filaPendiente) cuerpoTablaPendientes.removeChild(filaPendiente);
+                if (filaEnProceso) cuerpoTablaEnProceso.removeChild(filaEnProceso);
+                reportesPendientesMap.delete(claveUnica);
+                ordenarTabla(cuerpoTablaPendientes);
+                ordenarTabla(cuerpoTablaEnProceso);
+            }
+
+            const pendientesCount = cuerpoTablaPendientes.children.length;
+            const enProcesoCount = cuerpoTablaEnProceso.children.length;
+            if (pendientesCount === 0 && enProcesoCount === 0) {
+                mensajePendientes.textContent = "No hay reportes pendientes ni en proceso.";
+                mensajePendientes.classList.remove('error', 'exito');
+            } else {
+                mensajePendientes.textContent = "";
+            }
+
+            // CORRECCIÓN: Si destruyes el HTML de las otras filas, debes volver a activar su carga de foto inmediatamente
+            if (reporteData.estado === 'en proceso' || reporteData.estado === 'atendido') {
+                Array.from(cuerpoTablaPendientes.children).forEach(filaPend => {
+                    const claveFila = filaPend.getAttribute('data-clave');
+                    const reporteFila = reportesPendientesMap.get(claveFila);
+                    if (reporteFila) {
+                        filaPend.innerHTML = generarFilaHTML(reporteFila, claveFila);
+                        filaPend.onclick = detenerSirena;
+                        // Volvemos a solicitar la foto para esta fila ya que su HTML fue destruido
+                        cargarFotoEnFila(filaPend, reporteFila.categoria, reporteFila.id, reporteFila.telefono, reporteFila.rutaFoto);
+                    }
+                });
+            }
+        }
+        /**
+         * Renderiza el reporte en la interfaz web gestionando los estados y flujos de audio.
+         */
+        function renderizarReporte(reporte, reporteId, categoria, playSirena = false) {
+            const cuerpoTablaPendientes = document.getElementById('cuerpoTablaPendientes');
+            const cuerpoTablaEnProceso = document.getElementById('cuerpoTablaEnProceso');
+            const mensajePendientes = document.getElementById('mensajePendientes');
+
+            if (!cuerpoTablaPendientes || !cuerpoTablaEnProceso || !mensajePendientes || !document.getElementById('sirenaAudio')) {
+                console.error("Elementos del DOM requeridos no se encontraron en la página.");
+                return;
+            }
+
+            const claveUnica = `${categoria}/${reporteId}`;
+
+            // Guardamos las fechas originales para la búsqueda en Storage ANTES de convertirlas
+            const fechaOriginal = reporte.fecha;
+            const fechaConvertida = convertirFecha(reporte.fecha);
+            const horaConvertida = convertirHora(reporte.hora);
+
+            if (!reporte.fechaCreado) {
+                reporte.fechaCreado = new Date().toISOString();
+                database.ref(`${categoria}/${reporteId}`).update({ fechaCreado: reporte.fechaCreado });
+            }
+
+            const reporteTimestamp = getReporteTimestamp(reporte);
+
+            const reporteData = {
+                id: reporteId,
+                categoria,
+                ...reporte,
+                estado: reporte.estado || 'pendiente',
+                fecha: fechaConvertida,
+                hora: horaConvertida,
+                unidadConPolicia: reporte.unidadConPolicia || false,
+                nombreConductor: reporte.nombreConductor || '',
+                comentario: reporte.comentario || '',
+                timestamp: reporteTimestamp
+            };
+
+            console.log(`Procesando reporte ${claveUnica}:`, reporteData);
+
+            // Gestión de unidades asignadas
+            if (reporteData.estado === 'en proceso' && reporteData.unidadAsignada) {
+                unidadesAsignadasEnProceso.add(reporteData.unidadAsignada);
+            } else if (reporteData.estado === 'atendido' || !reporteData.unidadAsignada) {
+                unidadesAsignadasEnProceso.delete(reporteData.unidadAsignada);
+            }
+
+            reportesPendientesMap.set(claveUnica, reporteData);
+
+            // Creación de la fila
+            const fila = document.createElement('tr');
+            fila.setAttribute('data-clave', claveUnica);
+            fila.setAttribute('data-id', reporteId);
+            fila.innerHTML = generarFilaHTML(reporteData, claveUnica);
+            fila.onclick = detenerSirena;
+
+            // Cargar la foto del reporte con teléfono y ruta
+            cargarFotoEnFila(fila, categoria, reporteId, reporte.telefono, reporte.rutaFoto);
+
+            const filaPendiente = cuerpoTablaPendientes.querySelector(`tr[data-clave="${claveUnica}"]`);
+            const filaEnProceso = cuerpoTablaEnProceso.querySelector(`tr[data-clave="${claveUnica}"]`);
+
+            // Ubicación en las tablas correspondientes según estado
+            if (reporteData.estado === 'pendiente') {
+                if (filaEnProceso) cuerpoTablaEnProceso.removeChild(filaEnProceso);
+                if (filaPendiente) cuerpoTablaPendientes.replaceChild(fila, filaPendiente);
+                else cuerpoTablaPendientes.insertBefore(fila, cuerpoTablaPendientes.firstChild);
+
+                if (playSirena) {
+                    resaltarFila(fila);
+                    reproducirSirena();
+                }
+                ordenarTabla(cuerpoTablaPendientes);
+
+            } else if (reporteData.estado === 'en proceso') {
+                if (filaPendiente) cuerpoTablaPendientes.removeChild(filaPendiente);
+                if (filaEnProceso) cuerpoTablaEnProceso.replaceChild(fila, filaEnProceso);
+                else cuerpoTablaEnProceso.insertBefore(fila, cuerpoTablaEnProceso.firstChild);
+
+                if (playSirena) {
+                    resaltarFila(fila);
+                    reproducirSirena();
+                }
+                ordenarTabla(cuerpoTablaEnProceso);
+
+            } else if (reporteData.estado === 'atendido') {
+                if (filaPendiente) cuerpoTablaPendientes.removeChild(filaPendiente);
+                if (filaEnProceso) cuerpoTablaEnProceso.removeChild(filaEnProceso);
+                reportesPendientesMap.delete(claveUnica);
+                ordenarTabla(cuerpoTablaPendientes);
+                ordenarTabla(cuerpoTablaEnProceso);
+            }
+
+            // Actualizar contadores de mensajes
+            const pendientesCount = cuerpoTablaPendientes.children.length;
+            const enProcesoCount = cuerpoTablaEnProceso.children.length;
+            if (pendientesCount === 0 && enProcesoCount === 0) {
+                mensajePendientes.textContent = "No hay reportes pendientes ni en proceso.";
+                mensajePendientes.classList.remove('error', 'exito');
+            } else {
+                mensajePendientes.textContent = "";
+            }
+
+            // CORRECCIÓN DEL DOBLE CÓDIGO: 
+            // Al actualizar el HTML de las demás filas, eliminamos la llamada redundante de 'cargarFotoEnFila' 
+            // para evitar que el navegador vuelva a descargar imágenes repetidas innecesariamente.
+            if (reporteData.estado === 'en proceso' || reporteData.estado === 'atendido') {
+                Array.from(cuerpoTablaPendientes.children).forEach(filaPend => {
+                    const claveFila = filaPend.getAttribute('data-clave');
+                    const reporteFila = reportesPendientesMap.get(claveFila);
+                    if (reporteFila) {
+                        filaPend.innerHTML = generarFilaHTML(reporteFila, claveFila);
+                        filaPend.onclick = detenerSirena;
+                        // La imagen se mantiene intacta en el DOM sin necesidad de consultar el Storage de nuevo
+                    }
+                });
+            }
+        }
+
+        // Ordenar tabla
+        function ordenarTabla(cuerpoTabla) {
+            const filas = Array.from(cuerpoTabla.getElementsByTagName('tr'));
+            filas.sort((a, b) => {
+                const claveA = a.getAttribute('data-clave');
+                const claveB = b.getAttribute('data-clave');
+                const reporteA = reportesPendientesMap.get(claveA);
+                const reporteB = reportesPendientesMap.get(claveB);
+                const timestampA = reporteA && reporteA.fechaCreado ? new Date(reporteA.fechaCreado).getTime() : 0;
+                const timestampB = reporteB && reporteB.fechaCreado ? new Date(reporteB.fechaCreado).getTime() : 0;
+                return timestampB - timestampA;
+            });
+            while (cuerpoTabla.firstChild) cuerpoTabla.removeChild(cuerpoTabla.firstChild);
+            filas.forEach(fila => cuerpoTabla.appendChild(fila));
+        }
+
+        // Configurar listeners de Firebase
+        function configurarListenersReportes() {
+            const categorias = ['Agresiones', 'Delitos', 'Ruidos'];
+            categorias.forEach(categoria => {
+                const ref = database.ref(categoria);
+                console.log(`Configurando listener en tiempo real para la categoría: ${categoria}`);
+                ref.once('value', snapshot => {
+                    const reportes = [];
+                    snapshot.forEach(childSnapshot => {
+                        const reporte = childSnapshot.val();
+                        const reporteId = childSnapshot.key;
+                        if (!reporte || !reporte.tipo || !reporte.ubicacion) {
+                            console.log(`Reporte ignorado (vacío o incompleto) en ${categoria}/${reporteId}:`, reporte);
+                            return;
+                        }
+                        if (reporte.estado === 'pendiente' || reporte.estado === 'en proceso' || !reporte.estado) {
+                            if (!reporte.fechaCreado) {
+                                reporte.fechaCreado = new Date().toISOString();
+                                database.ref(`${categoria}/${reporteId}`).update({ fechaCreado: reporte.fechaCreado });
+                            }
+                            reportes.push({ reporte, reporteId, categoria });
+
+                            // Inicializar unidadesAsignadasEnProceso
+                            if (reporte.estado === 'en proceso' && reporte.unidadAsignada) {
+                                unidadesAsignadasEnProceso.add(reporte.unidadAsignada);
+                            }
+                        }
+                    });
+                    reportes.sort((a, b) => {
+                        const timestampA = a.reporte.fechaCreado ? new Date(a.reporte.fechaCreado).getTime() : 0;
+                        const timestampB = b.reporte.fechaCreado ? new Date(b.reporte.fechaCreado).getTime() : 0;
+                        return timestampB - timestampA;
+                    });
+                    reportes.forEach(({ reporte, reporteId, categoria }) => renderizarReporte(reporte, reporteId, categoria, false));
+                    ordenarTabla(document.getElementById('cuerpoTablaPendientes'));
+                    ordenarTabla(document.getElementById('cuerpoTablaEnProceso'));
+                    initialTimestamp = Date.now();
+                    console.log("initialTimestamp actualizado:", initialTimestamp);
+                }, error => console.error(`Error al cargar reportes iniciales para ${categoria}:`, error));
+
+                ref.on('child_added', snapshot => {
+                    const reporte = snapshot.val();
+                    const reporteId = snapshot.key;
+                    if (!reporte || !reporte.tipo || !reporte.ubicacion) {
+                        console.log(`Reporte ignorado en ${categoria}/${reporteId}:`, reporte);
+                        return;
+                    }
+                    if (!reporte.fechaCreado) {
+                        reporte.fechaCreado = new Date().toISOString();
+                        database.ref(`${categoria}/${reporteId}`).update({ fechaCreado: reporte.fechaCreado });
+                    }
+                    const reporteTimestamp = getReporteTimestamp(reporte);
+                    const playSirena = reporteTimestamp > initialTimestamp;
+                    console.log(`Nuevo reporte en ${categoria}/${reporteId}. playSirena=${playSirena}, timestamp=${reporteTimestamp}, initial=${initialTimestamp}`);
+                    if (reporte.estado === 'pendiente' || reporte.estado === 'en proceso' || !reporte.estado) {
+                        renderizarReporte(reporte, reporteId, categoria, playSirena);
+                    }
+                }, error => console.error(`Error en child_added para ${categoria}:`, error));
+
+                ref.on('child_changed', snapshot => {
+                    const reporte = snapshot.val();
+                    const reporteId = snapshot.key;
+                    if (!reporte || !reporte.tipo || !reporte.ubicacion) {
+                        console.log(`Reporte ignorado en ${categoria}/${reporteId}:`, reporte);
+                        return;
+                    }
+                    renderizarReporte(reporte, reporteId, categoria, false);
+                }, error => console.error(`Error en child_changed para ${categoria}:`, error));
+
+                ref.on('child_removed', snapshot => {
+                    const reporteId = snapshot.key;
+                    const claveUnica = `${categoria}/${reporteId}`;
+                    const cuerpoTablaPendientes = document.getElementById('cuerpoTablaPendientes');
+                    const cuerpoTablaEnProceso = document.getElementById('cuerpoTablaEnProceso');
+                    const mensajePendientes = document.getElementById('mensajePendientes');
+                    if (reportesPendientesMap.has(claveUnica)) {
+                        const reporte = reportesPendientesMap.get(claveUnica);
+                        if (reporte.unidadAsignada) {
+                            unidadesAsignadasEnProceso.delete(reporte.unidadAsignada);
+                        }
+                        const filaPendiente = cuerpoTablaPendientes.querySelector(`tr[data-clave="${claveUnica}"]`);
+                        const filaEnProceso = cuerpoTablaEnProceso.querySelector(`tr[data-clave="${claveUnica}"]`);
+                        if (filaPendiente) cuerpoTablaPendientes.removeChild(filaPendiente);
+                        if (filaEnProceso) cuerpoTablaEnProceso.removeChild(filaEnProceso);
+                        reportesPendientesMap.delete(claveUnica);
+                        ordenarTabla(cuerpoTablaPendientes);
+                        ordenarTabla(cuerpoTablaEnProceso);
+
+                        // Actualizar filas de Reportes Pendientes
+                        Array.from(cuerpoTablaPendientes.children).forEach(fila => {
+                            const claveFila = fila.getAttribute('data-clave');
+                            const reporteFila = reportesPendientesMap.get(claveFila);
+                            if (reporteFila) {
+                                fila.innerHTML = generarFilaHTML(reporteFila, claveFila);
+                                fila.onclick = detenerSirena;
+                                cargarFotoEnFila(fila, reporteFila.categoria, reporteFila.id, reporteFila.telefono, reporteFila.rutaFoto);
+                            }
+                        });
+                    }
+                    const pendientesCount = cuerpoTablaPendientes.children.length;
+                    const enProcesoCount = cuerpoTablaEnProceso.children.length;
+                    if (pendientesCount === 0 && enProcesoCount === 0) {
+                        mensajePendientes.textContent = "No hay reportes pendientes ni en proceso.";
+                        mensajePendientes.classList.remove('error', 'exito');
+                    }
+                }, error => console.error(`Error en child_removed para ${categoria}:`, error));
+            });
+        }
+
+        // Cargar reportes pendientes
+        function cargarReportesPendientes() {
+            const cuerpoTablaPendientes = document.getElementById('cuerpoTablaPendientes');
+            const cuerpoTablaEnProceso = document.getElementById('cuerpoTablaEnProceso');
+            const mensajePendientes = document.getElementById('mensajePendientes');
+            if (!cuerpoTablaPendientes || !cuerpoTablaEnProceso || !mensajePendientes) {
+                console.error("Elementos del DOM no encontrados");
+                return;
+            }
+            cuerpoTablaPendientes.innerHTML = '';
+            cuerpoTablaEnProceso.innerHTML = '';
+            const pendientes = [], enProceso = [];
+            reportesPendientesMap.forEach((reporteData, claveUnica) => {
+                const fila = document.createElement('tr');
+                fila.setAttribute('data-clave', claveUnica);
+                fila.setAttribute('data-id', reporteData.id);
+                fila.innerHTML = generarFilaHTML(reporteData, claveUnica);
+                fila.onclick = detenerSirena;
+                // Cargar foto para cada fila creada
+                cargarFotoEnFila(fila, reporteData.categoria, reporteData.id, reporteData.telefono, reporteData.rutaFoto);
+                if (reporteData.estado === 'pendiente') pendientes.push({ fila, id: reporteData.id, fechaCreado: reporteData.fechaCreado });
+                else if (reporteData.estado === 'en proceso') enProceso.push({ fila, id: reporteData.id, fechaCreado: reporteData.fechaCreado });
+            });
+            pendientes.sort((a, b) => (b.fechaCreado ? new Date(b.fechaCreado).getTime() : 0) - (a.fechaCreado ? new Date(a.fechaCreado).getTime() : 0)).forEach(({ fila }) => cuerpoTablaPendientes.appendChild(fila));
+            enProceso.sort((a, b) => (b.fechaCreado ? new Date(b.fechaCreado).getTime() : 0) - (a.fechaCreado ? new Date(a.fechaCreado).getTime() : 0)).forEach(({ fila }) => cuerpoTablaEnProceso.appendChild(fila));
+            const pendientesCount = cuerpoTablaPendientes.children.length;
+            const enProcesoCount = cuerpoTablaEnProceso.children.length;
+            if (pendientesCount === 0 && enProcesoCount === 0) {
+                mensajePendientes.textContent = "No hay reportes pendientes ni en proceso.";
+                mensajePendientes.classList.remove('error', 'exito');
+            } else mensajePendientes.textContent = "";
+        }
+
+        // Verificar autenticación
+        auth.onAuthStateChanged(async user => {
+            if (!user) {
+                console.log("Usuario no autenticado, redirigiendo a login...");
+                window.location.href = 'login.html';
+            } else {
+                console.log("Usuario autenticado:", user.uid);
+                console.log("Email del usuario:", user.email);
+                await inicializarUnidades();
+                await cargarUnidadesDesdeFirebase();
+                configurarListenersReportes();
+                cargarSeccion('reportesPendientes');
+                ordenarTabla(document.getElementById('cuerpoTablaPendientes'));
+                ordenarTabla(document.getElementById('cuerpoTablaEnProceso'));
+
+                const sistemaIniciado = localStorage.getItem('sistemaIniciado_' + user.uid);
+                const iniciarSistemaBtn = document.getElementById('iniciarSistemaBtn');
+                if (!sistemaIniciado && iniciarSistemaBtn) iniciarSistemaBtn.style.display = 'block';
+                else if (iniciarSistemaBtn) {
+                    iniciarSistemaBtn.style.display = 'none';
+                    const mensajeAudio = document.getElementById('mensajeAudio');
+                    if (mensajeAudio) {
+                        mensajeAudio.textContent = "Sistema ya iniciado previamente. Haz clic en 'Iniciar Sistema' para habilitar la sirena si no está habilitada.";
+                        mensajeAudio.classList.remove('error');
+                        mensajeAudio.classList.add('exito');
+                    }
+                }
+            }
+        });
+
+        // Iniciar sistema
+        function iniciarSistema() {
+            const user = auth.currentUser;
+            if (user) {
+                localStorage.setItem('sistemaIniciado_' + user.uid, 'true');
+                desbloquearAudio();
+                const iniciarSistemaBtn = document.getElementById('iniciarSistemaBtn');
+                if (iniciarSistemaBtn) iniciarSistemaBtn.style.display = 'none';
+                const mensajeAudio = document.getElementById('mensajeAudio');
+                if (mensajeAudio) mensajeAudio.textContent = "";
+            }
+        }
+
+        // Cambiar sección
+        function cargarSeccion(seccionId) {
+            document.querySelectorAll('section').forEach(section => section.classList.remove('active'));
+            const seccion = document.getElementById(seccionId);
+            if (seccion) seccion.classList.add('active');
+            if (seccionId === 'reportesPendientes') cargarReportesPendientes();
+            else if (seccionId === 'reportesAtendidos') cargarReportesAtendidos();
+            else if (seccionId === 'unidadesDisponibles') cargarUnidadesDisponibles();
+        }
+
+        // Alternar tema
+        function toggleTheme() {
+            const body = document.body;
+            const themeButtonIcon = document.querySelector('.theme-toggle i');
+            const themeButtonText = document.querySelector('.theme-toggle span');
+            body.classList.toggle('dark-mode');
+            if (body.classList.contains('dark-mode')) {
+                themeButtonIcon.classList.remove('fa-moon');
+                themeButtonIcon.classList.add('fa-sun');
+                themeButtonText.textContent = 'Modo Claro';
+            } else {
+                themeButtonIcon.classList.remove('fa-sun');
+                themeButtonIcon.classList.add('fa-moon');
+                themeButtonText.textContent = 'Modo Oscuro';
+            }
+        }
+
+        // Actualizar unidad con policía
+        async function actualizarUnidadConPolicia(reporteId, categoria, unidadConPolicia) {
+            const mensajePendientes = document.getElementById('mensajePendientes');
+            const user = auth.currentUser;
+            if (!user) {
+                console.error("Usuario no autenticado");
+                if (mensajePendientes) {
+                    mensajePendientes.textContent = "Error: No estás autenticado.";
+                    mensajePendientes.classList.remove('exito');
+                    mensajePendientes.classList.add('error');
+                }
+                return;
+            }
+            try {
+                await database.ref(`${categoria}/${reporteId}`).update({ unidadConPolicia });
+                console.log(`Reporte ${reporteId} actualizado: unidadConPolicia=${unidadConPolicia}`);
+                if (mensajePendientes) {
+                    mensajePendientes.textContent = "Estado de unidad con policía actualizado con éxito.";
+                    mensajePendientes.classList.remove('error');
+                    mensajePendientes.classList.add('exito');
+                }
+            } catch (error) {
+                console.error("Error al actualizar unidad con policía:", error);
+                if (mensajePendientes) {
+                    mensajePendientes.textContent = "Error: " + error.message;
+                    mensajePendientes.classList.remove('exito');
+                    mensajePendientes.classList.add('error');
+                }
+            }
+        }
+
+        // Actualizar nombre conductor
+        async function actualizarNombreConductor(reporteId, categoria, nombreConductor) {
+            const mensajePendientes = document.getElementById('mensajePendientes');
+            const user = auth.currentUser;
+            if (!user) {
+                console.error("Usuario no autenticado");
+                if (mensajePendientes) {
+                    mensajePendientes.textContent = "Error: No estás autenticado.";
+                    mensajePendientes.classList.remove('exito');
+                    mensajePendientes.classList.add('error');
+                }
+                return;
+            }
+            try {
+                await database.ref(`${categoria}/${reporteId}`).update({ nombreConductor: nombreConductor.trim() });
+                console.log(`Reporte ${reporteId} actualizado: nombreConductor=${nombreConductor}`);
+                if (mensajePendientes) {
+                    mensajePendientes.textContent = "Nombre del conductor actualizado con éxito.";
+                    mensajePendientes.classList.remove('error');
+                    mensajePendientes.classList.add('exito');
+                }
+            } catch (error) {
+                console.error("Error al actualizar nombre del conductor:", error);
+                if (mensajePendientes) {
+                    mensajePendientes.textContent = "Error: " + error.message;
+                    mensajePendientes.classList.remove('exito');
+                    mensajePendientes.classList.add('error');
+                }
+            }
+        }
+
+        // Actualizar comentario
+        async function actualizarComentario(reporteId, categoria, comentario) {
+            const mensajePendientes = document.getElementById('mensajePendientes');
+            const user = auth.currentUser;
+            if (!user) {
+                console.error("Usuario no autenticado");
+                if (mensajePendientes) {
+                    mensajePendientes.textContent = "Error: No estás autenticado.";
+                    mensajePendientes.classList.remove('exito');
+                    mensajePendientes.classList.add('error');
+                }
+                return;
+            }
+            try {
+                await database.ref(`${categoria}/${reporteId}`).update({ comentario: comentario.trim() });
+                console.log(`Reporte ${reporteId} actualizado: comentario=${comentario}`);
+                if (mensajePendientes) {
+                    mensajePendientes.textContent = "Comentario actualizado con éxito.";
+                    mensajePendientes.classList.remove('error');
+                    mensajePendientes.classList.add('exito');
+                }
+            } catch (error) {
+                console.error("Error al actualizar comentario:", error);
+                if (mensajePendientes) {
+                    mensajePendientes.textContent = "Error: " + error.message;
+                    mensajePendientes.classList.remove('exito');
+                    mensajePendientes.classList.add('error');
+                }
+            }
+        }
+
+        // Cargar reportes atendidos
+        async function cargarReportesAtendidos() {
+            const cuerpoTablaAtendidos = document.getElementById('cuerpoTablaAtendidos');
+            const mensajeAtendidos = document.getElementById('mensajeAtendidos');
+            if (!cuerpoTablaAtendidos || !mensajeAtendidos) {
+                console.error("Elementos del DOM no encontrados: cuerpoTablaAtendidos o mensajeAtendidos no están presentes en el HTML.");
+                return;
+            }
+            cuerpoTablaAtendidos.innerHTML = '';
+            const categorias = ['Agresiones', 'Delitos', 'Ruidos'];
+            let reportesAtendidos = [];
+            try {
+                const resultados = await Promise.all(categorias.map(categoria =>
+                    database.ref(categoria).once('value').then(snapshot => {
+                        const reportes = [];
+                        snapshot.forEach(childSnapshot => {
+                            const reporte = childSnapshot.val();
+                            const reporteId = childSnapshot.key;
+                            if (!reporte || !reporte.tipo || !reporte.ubicacion) {
+                                console.log(`Reporte ignorado en ${categoria}/${reporteId}:`, reporte);
+                                return;
+                            }
+                            if (reporte.estado === 'atendido') {
+                                const fechaConvertida = convertirFecha(reporte.fecha);
+                                const horaConvertida = convertirHora(reporte.hora);
+                                reportes.push({
+                                    id: reporteId,
+                                    categoria,
+                                    ...reporte,
+                                    fecha: fechaConvertida,
+                                    hora: horaConvertida,
+                                    unidadConPolicia: reporte.unidadConPolicia || false,
+                                    nombreConductor: reporte.nombreConductor || '',
+                                    comentario: reporte.comentario || ''
+                                });
+                            }
+                        });
+                        return reportes;
+                    }).catch(error => {
+                        console.error(`Error al consultar la categoría ${categoria}:`, error);
+                        return [];
+                    })
+                ));
+                reportesAtendidos = resultados.flat();
+                console.log("Reportes atendidos combinados:", reportesAtendidos);
+                if (reportesAtendidos.length === 0) {
+                    mensajeAtendidos.textContent = "No hay reportes atendidos.";
+                    mensajeAtendidos.classList.remove('error', 'exito');
+                    return;
+                }
+                for (const reporte of reportesAtendidos) {
+                    if (!reporte.atendidoPor) {
+                        console.warn(`Reporte ${reporte.categoria}/${reporte.id} no tiene atendidoPor definido.`);
+                        reporte.nombreOperario = 'Desconocido';
+                        continue;
+                    }
+                    try {
+                        const nombreOperario = await obtenerNombreOperario(reporte.atendidoPor);
+                        reporte.nombreOperario = nombreOperario;
+                    } catch (error) {
+                        console.error(`Error al obtener nombre del operario para el reporte ${reporte.categoria}/${reporte.id}:`, error);
+                        reporte.nombreOperario = 'Desconocido';
+                    }
+                }
+                reportesAtendidos.sort((a, b) => b.id.localeCompare(a.id));
+                reportesAtendidos.forEach(reporte => {
+                    const unidadAsignada = unidadesDisponibles.find(u => u.id === reporte.unidadAsignada)?.nombre || 'No asignada';
+                    const unidadConPoliciaTexto = reporte.unidadConPolicia ? 'Sí' : 'No';
+                    const conductor = reporte.nombreConductor || 'No especificado';
+                    const comentario = reporte.comentario || 'Sin comentarios';
+                    const fila = document.createElement('tr');
+                    fila.innerHTML = `
+                    <td>${reporte.fecha || 'No disponible'}</td>
+                    <td>${reporte.hora || 'No disponible'}</td>
+                    <td>${reporte.tipo || 'No disponible'}</td>
+                    <td>${reporte.ubicacion || 'No disponible'}</td>
+                    <td>${reporte.nombre || 'Anónimo'}</td>
+                    <td>${reporte.telefono || 'No disponible'}</td>
+                    <td>${unidadAsignada}</td>
+                    <td>${reporte.nombreOperario || 'Desconocido'}</td>
+                    <td>${unidadConPoliciaTexto}</td>
+                    <td>${conductor}</td>
+                    <td>${comentario}</td>
+                `;
+                    cuerpoTablaAtendidos.appendChild(fila);
+                });
+            } catch (error) {
+                console.error("Error general al cargar reportes atendidos:", error);
+                mensajeAtendidos.textContent = "Error al cargar reportes: " + error.message;
+                mensajeAtendidos.classList.remove('exito');
+                mensajeAtendidos.classList.add('error');
+            }
+        }
+
+        // Filtrar reportes atendidos
+        async function filtrarReportesAtendidos() {
+            const filtro = document.getElementById('filtroInput').value.toLowerCase().trim();
+            const cuerpoTablaAtendidos = document.getElementById('cuerpoTablaAtendidos');
+            const mensajeAtendidos = document.getElementById('mensajeAtendidos');
+            if (!cuerpoTablaAtendidos || !mensajeAtendidos) {
+                console.error("Elementos del DOM no encontrados");
+                return;
+            }
+            const categorias = ['Agresiones', 'Delitos', 'Ruidos'];
+            let reportesAtendidos = [];
+            try {
+                const resultados = await Promise.all(categorias.map(categoria =>
+                    database.ref(categoria).once('value').then(snapshot => {
+                        const reportes = [];
+                        snapshot.forEach(childSnapshot => {
+                            const reporte = childSnapshot.val();
+                            const reporteId = childSnapshot.key;
+                            if (!reporte || !reporte.tipo || !reporte.ubicacion) {
+                                console.log(`Reporte ignorado en ${categoria}/${reporteId}:`, reporte);
+                                return;
+                            }
+                            if (reporte.estado === 'atendido') {
+                                const fechaConvertida = convertirFecha(reporte.fecha);
+                                const horaConvertida = convertirHora(reporte.hora);
+                                reportes.push({
+                                    id: reporteId,
+                                    categoria,
+                                    ...reporte,
+                                    fecha: fechaConvertida,
+                                    hora: horaConvertida,
+                                    unidadConPolicia: reporte.unidadConPolicia || false,
+                                    nombreConductor: reporte.nombreConductor || '',
+                                    comentario: reporte.comentario || ''
+                                });
+                            }
+                        });
+                        return reportes;
+                    }).catch(error => {
+                        console.error(`Error al consultar la categoría ${categoria}:`, error);
+                        return [];
+                    })
+                ));
+                reportesAtendidos = resultados.flat();
+                console.log("Reportes atendidos combinados:", reportesAtendidos);
+
+                if (reportesAtendidos.length === 0) {
+                    mensajeAtendidos.textContent = "No hay reportes atendidos.";
+                    mensajeAtendidos.classList.remove('error', 'exito');
+                    cuerpoTablaAtendidos.innerHTML = '';
+                    return;
+                }
+
+                for (const reporte of reportesAtendidos) {
+                    if (!reporte.atendidoPor) {
+                        console.warn(`Reporte ${reporte.categoria}/${reporte.id} no tiene atendidoPor definido.`);
+                        reporte.nombreOperario = 'Desconocido';
+                        continue;
+                    }
+                    try {
+                        const nombreOperario = await obtenerNombreOperario(reporte.atendidoPor);
+                        reporte.nombreOperario = nombreOperario;
+                    } catch (error) {
+                        console.error(`Error al obtener nombre del operario para el reporte ${reporte.categoria}/${reporte.id}:`, error);
+                        reporte.nombreOperario = 'Desconocido';
+                    }
+                }
+
+                const reportesFiltrados = reportesAtendidos.filter(reporte => {
+                    const unidadAsignada = unidadesDisponibles.find(u => u.id === reporte.unidadAsignada)?.nombre || 'No asignada';
+                    const unidadConPoliciaTexto = reporte.unidadConPolicia ? 'Sí' : 'No';
+                    const conductor = reporte.nombreConductor || 'No especificado';
+                    const comentario = reporte.comentario || 'Sin comentarios';
+                    return [
+                        reporte.fecha, reporte.hora, reporte.tipo, reporte.ubicacion,
+                        reporte.nombre, reporte.telefono, unidadAsignada,
+                        reporte.nombreOperario, unidadConPoliciaTexto, conductor, comentario
+                    ].some(field => (field || 'No disponible').toLowerCase().includes(filtro));
+                });
+
+                cuerpoTablaAtendidos.innerHTML = '';
+
+                if (reportesFiltrados.length === 0) {
+                    return;
+                }
+
+                reportesFiltrados.sort((a, b) => b.id.localeCompare(a.id)).forEach(reporte => {
+                    const unidadAsignada = unidadesDisponibles.find(u => u.id === reporte.unidadAsignada)?.nombre || 'No asignada';
+                    const unidadConPoliciaTexto = reporte.unidadConPolicia ? 'Sí' : 'No';
+                    const conductor = reporte.nombreConductor || 'No especificado';
+                    const comentario = reporte.comentario || 'Sin comentarios';
+                    const fila = document.createElement('tr');
+                    fila.innerHTML = `
+                    <td>${reporte.fecha || 'No disponible'}</td>
+                    <td>${reporte.hora || 'No disponible'}</td>
+                    <td>${reporte.tipo || 'No disponible'}</td>
+                    <td>${reporte.ubicacion || 'No disponible'}</td>
+                    <td>${reporte.nombre || 'Anónimo'}</td>
+                    <td>${reporte.telefono || 'No disponible'}</td>
+                    <td>${unidadAsignada}</td>
+                    <td>${reporte.nombreOperario || 'Desconocido'}</td>
+                    <td>${unidadConPoliciaTexto}</td>
+                    <td>${conductor}</td>
+                    <td>${comentario}</td>
+                `;
+                    cuerpoTablaAtendidos.appendChild(fila);
+                });
+
+                mensajeAtendidos.textContent = '';
+                mensajeAtendidos.classList.remove('error', 'exito');
+            } catch (error) {
+                console.error("Error general al filtrar reportes atendidos:", error);
+                mensajeAtendidos.textContent = "Error al filtrar reportes: " + error.message;
+                mensajeAtendidos.classList.remove('exito');
+                mensajeAtendidos.classList.add('error');
+                cuerpoTablaAtendidos.innerHTML = '';
+            }
+        }
+
+        // Cargar unidades disponibles
+        function cargarUnidadesDisponibles(filtro = '') {
+            const listaUnidades = document.getElementById('listaUnidades');
+            const mensajeUnidades = document.getElementById('mensajeUnidades');
+            if (!listaUnidades || !mensajeUnidades) {
+                console.error("Elementos del DOM no encontrados");
+                return;
+            }
+            listaUnidades.innerHTML = '';
+
+            // Filtrar unidades según el texto de búsqueda
+            const unidadesFiltradas = filtro
+                ? unidadesDisponibles.filter(unidad =>
+                    unidad.nombre.toLowerCase().includes(filtro.toLowerCase()) ||
+                    unidad.id.toLowerCase().includes(filtro.toLowerCase()) ||
+                    unidad.estado.toLowerCase().includes(filtro.toLowerCase())
+                )
+                : unidadesDisponibles;
+
+            if (unidadesFiltradas.length === 0) {
+                mensajeUnidades.textContent = filtro
+                    ? "No se encontraron unidades que coincidan con el filtro."
+                    : "No hay unidades disponibles.";
+                mensajeUnidades.classList.remove('error', 'exito');
+                return;
+            }
+
+            const estados = ['Operativa', 'En el taller', 'En mantenimiento', 'Fuera de servicio'];
+            unidadesFiltradas.forEach(unidad => {
+                const unidadDiv = document.createElement('div');
+                unidadDiv.classList.add('unidad-item');
+                unidadDiv.innerHTML = `
+            <div><p><strong>${unidad.nombre}</strong></p><p>ID: ${unidad.id}</p></div>
+            <select onchange="actualizarEstadoUnidad('${unidad.id}', this.value)">
+                ${estados.map(estado => `<option value="${estado}" ${unidad.estado === estado ? 'selected' : ''}>${estado}</option>`).join('')}
+            </select>
+        `;
+                listaUnidades.appendChild(unidadDiv);
+            });
+            mensajeUnidades.textContent = "";
+        }
+
+        // Filtrar unidades disponibles
+        function filtrarUnidades() {
+            const filtro = document.getElementById('filtroUnidadesInput').value.trim();
+            cargarUnidadesDisponibles(filtro);
+        }
+
+        // Asignar unidad
+        async function asignarUnidad(reporteId, categoria, unidadId) {
+            const mensajePendientes = document.getElementById('mensajePendientes');
+            if (!unidadId) {
+                if (mensajePendientes) {
+                    mensajePendientes.textContent = "Por favor, selecciona una unidad.";
+                    mensajePendientes.classList.remove('exito');
+                    mensajePendientes.classList.add('error');
+                }
+                return;
+            }
+            const user = auth.currentUser;
+            if (!user) {
+                console.error("Usuario no autenticado");
+                if (mensajePendientes) {
+                    mensajePendientes.textContent = "Error: No estás autenticado.";
+                    mensajePendientes.classList.remove('exito');
+                    mensajePendientes.classList.add('error');
+                }
+                return;
+            }
+            try {
+                const claveUnica = `${categoria}/${reporteId}`;
+                const reporte = reportesPendientesMap.get(claveUnica);
+                const unidadAnterior = reporte ? reporte.unidadAsignada : null;
+
+                await database.ref(`${categoria}/${reporteId}`).update({ unidadAsignada: unidadId, asignadoPor: user.uid });
+                console.log(`Unidad ${unidadId} asignada al reporte ${reporteId}`);
+
+                if (reporte && reporte.estado === 'en proceso') {
+                    if (unidadAnterior) {
+                        unidadesAsignadasEnProceso.delete(unidadAnterior);
+                    }
+                    unidadesAsignadasEnProceso.add(unidadId);
+                }
+
+                if (mensajePendientes) {
+                    mensajePendientes.textContent = "Unidad asignada con éxito.";
+                    mensajePendientes.classList.remove('error');
+                    mensajePendientes.classList.add('exito');
+                }
+
+                const cuerpoTablaPendientes = document.getElementById('cuerpoTablaPendientes');
+                Array.from(cuerpoTablaPendientes.children).forEach(fila => {
+                    const claveFila = fila.getAttribute('data-clave');
+                    const reporteFila = reportesPendientesMap.get(claveFila);
+                    if (reporteFila) {
+                        fila.innerHTML = generarFilaHTML(reporteFila, claveFila);
+                        fila.onclick = detenerSirena;
+                        cargarFotoEnFila(fila, reporteFila.categoria, reporteFila.id, reporteFila.telefono, reporteFila.rutaFoto);
+                    }
+                });
+            } catch (error) {
+                console.error("Error al asignar unidad:", error);
+                if (mensajePendientes) {
+                    mensajePendientes.textContent = "Error: " + error.message;
+                    mensajePendientes.classList.remove('exito');
+                    mensajePendientes.classList.add('error');
+                }
+            }
+        }
+
+        // Atender reporte
+        async function atenderReporte(reporteId, categoria) {
+            const mensajePendientes = document.getElementById('mensajePendientes');
+            const user = auth.currentUser;
+            if (!user) {
+                // ...manejo de error...
+                return;
+            }
+            try {
+                const claveUnica = `${categoria}/${reporteId}`;
+                const reporte = reportesPendientesMap.get(claveUnica);
+                const estadoActual = reporte ? reporte.estado : 'pendiente';
+                let nuevoEstado, mensaje;
+                if (estadoActual === 'pendiente') {
+                    nuevoEstado = 'en proceso';
+                    mensaje = "Reporte marcado como 'En Proceso' con éxito.";
+                } else if (estadoActual === 'en proceso') {
+                    nuevoEstado = 'atendido';
+                    mensaje = "Reporte marcado como 'Atendido' con éxito.";
+                } else return;
+                const updates = { estado: nuevoEstado };
+                if (nuevoEstado === 'atendido') {
+                    updates.atendidoPor = user.uid;
+                    updates.fechaAtendido = new Date().toISOString();
+                }
+                await database.ref(`${categoria}/${reporteId}`).update(updates);
+                if (nuevoEstado === 'atendido') {
+                    try {
+                        await database.ref('operarios/' + user.uid).transaction(operario => {
+                            if (operario) operario.reportesAtendidos = (operario.reportesAtendidos || 0) + 1;
+                            return operario;
+                        });
+                    } catch (error) {
+                        console.warn("No se pudo actualizar el contador de reportes atendidos:", error);
+                    }
+                }
+                if (mensajePendientes) {
+                    mensajePendientes.textContent = mensaje;
+                    mensajePendientes.classList.remove('error');
+                    mensajePendientes.classList.add('exito');
+                }
+            } catch (error) {
+                console.error("Error al atender reporte:", error);
+                if (mensajePendientes) {
+                    mensajePendientes.textContent = "Error: " + error.message;
+                    mensajePendientes.classList.remove('exito');
+                    mensajePendientes.classList.add('error');
+                }
+            }
+        }
+
+        async function actualizarEstadoUnidad(unidadId, nuevoEstado) {
+            const mensajeUnidades = document.getElementById('mensajeUnidades');
+            try {
+                await database.ref('unidades/' + unidadId).update({ estado: nuevoEstado });
+                if (mensajeUnidades) {
+                    mensajeUnidades.textContent = "Estado de la unidad actualizado correctamente.";
+                    mensajeUnidades.classList.remove('error');
+                    mensajeUnidades.classList.add('exito');
+                }
+            } catch (error) {
+                if (mensajeUnidades) {
+                    mensajeUnidades.textContent = "Error al actualizar el estado: " + error.message;
+                    mensajeUnidades.classList.remove('exito');
+                    mensajeUnidades.classList.add('error');
+                }
+            }
+        }
+
+        // Cerrar sesión
+        function cerrarSesion() {
+            document.getElementById('confirmLogoutModal').style.display = 'flex';
+        }
+
+        document.getElementById('confirmLogoutBtn').onclick = async function () {
+            document.getElementById('confirmLogoutModal').style.display = 'none';
+            try {
+                const user = auth.currentUser;
+                if (user) {
+                    localStorage.removeItem('sistemaIniciado_' + user.uid);
+                    desactivarListenersOperario();
+                }
+                await auth.signOut();
+                window.location.href = 'index.html';
+            } catch (error) {
+                alert("Error al cerrar sesión. Por favor, intenta de nuevo.");
+            }
+        };
+
+        document.getElementById('cancelLogoutBtn').onclick = function () {
+            document.getElementById('confirmLogoutModal').style.display = 'none';
+        };
+
+        // Desactivar listeners de unidades
+        function desactivarListenersOperario() {
+            const ref = database.ref('unidades');
+            ref.off('child_added');
+            ref.off('child_changed');
+            ref.off('child_removed');
+            console.log("Listeners de unidades desactivados (Operario).");
+        }
+
+        // Manejar cierre del modal al hacer clic fuera de la imagen
+        window.addEventListener('load', function() {
+            const modal = document.getElementById('modalFoto');
+            if (modal) {
+                modal.addEventListener('click', function(e) {
+                    if (e.target === modal) {
+                        cerrarModalFoto();
+                    }
+                });
+            }
+            // Cerrar con tecla ESC
+            document.addEventListener('keydown', function(e) {
+                if (e.key === 'Escape') {
+                    cerrarModalFoto();
+                }
+            });
+        });
+    </script>
+
+    <!-- Modal para ver fotos en grande -->
+    <div id="modalFoto" class="modal">
+        <div class="modal-content">
+            <button class="modal-close-btn" onclick="cerrarModalFoto()">✕ Cerrar</button>
+            <img id="imgModal" class="modal-img" alt="Foto ampliada">
+            <div class="modal-info">Presiona ESC o haz clic fuera para cerrar</div>
+        </div>
+    </div>
+
+</body>
+
+</html>
