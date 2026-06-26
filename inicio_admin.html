@@ -4016,26 +4016,16 @@
                     }
                 }
 
-                // --- AGREGAR LA FOTO DEL REPORTE DIRECTAMENTE DESDE rutaFoto ---
+                // --- AGREGAR LA FOTO (sin mostrar alerta si falla) ---
                 if (reporte.rutaFoto && reporte.rutaFoto.trim() !== '') {
                     try {
-                        console.log("🖼️ Iniciando carga de imagen - URL:", reporte.rutaFoto);
+                        console.log("🖼️ Intentando agregar foto al PDF...");
                         let fotoUrl = reporte.rutaFoto.trim();
 
                         const getBase64FromUrl = async (url) => {
-                            console.log("⏳ Descargando imagen desde URL...");
-                            const response = await fetch(url, {
-                                method: 'GET',
-                                headers: {
-                                    'Cache-Control': 'no-cache'
-                                }
-                            });
-                            if (!response.ok) {
-                                throw new Error(`No se pudo descargar la imagen: ${response.status} - ${response.statusText}`);
-                            }
+                            const response = await fetch(url, { method: 'GET', cache: 'no-cache' });
+                            if (!response.ok) throw new Error("No se pudo descargar");
                             const blob = await response.blob();
-                            console.log(`✅ Imagen descargada: ${blob.size} bytes, tipo: ${blob.type}`);
-
                             return new Promise((resolve, reject) => {
                                 const reader = new FileReader();
                                 reader.onloadend = () => resolve(reader.result);
@@ -4045,10 +4035,9 @@
                         };
 
                         const base64Img = await getBase64FromUrl(fotoUrl);
-                        console.log("✅ Base64 convertido correctamente");
 
                         if (base64Img) {
-                            if (y + 100 > pageHeight - margen - 20) {
+                            if (y + 110 > pageHeight - margen - 20) {
                                 doc.addPage();
                                 y = margen + 10;
                                 agregarEncabezado();
@@ -4057,19 +4046,17 @@
                             doc.setFont("helvetica", "bold");
                             doc.setFontSize(14);
                             doc.text("Evidencia adjunta:", margen + 5, y);
-                            y += 10;
+                            y += 12;
                             const maxWidth = pageWidth - 2 * margen;
                             const maxHeight = 100;
                             doc.addImage(base64Img, 'JPEG', margen, y, maxWidth, maxHeight, undefined, 'FAST');
-                            console.log("✅ Imagen insertada en el PDF");
+                            console.log("✅ Foto agregada correctamente al PDF");
                             y += maxHeight + 10;
                         }
                     } catch (e) {
-                        console.error("❌ Error al cargar evidencia:", e);
-                        alert("⚠️ Error al cargar la evidencia: " + e.message + "\n\nEl PDF se generará sin la imagen.");
+                        console.warn("⚠️ No se pudo agregar la foto al PDF (continuando sin ella):", e.message);
+                        // Se continúa sin foto, sin mostrar alerta al usuario
                     }
-                } else {
-                    console.warn("⚠️ No hay URL de foto disponible para este reporte");
                 }
 
                 const fechaGeneracion = new Date().toLocaleString('es-ES', { dateStyle: 'medium', timeStyle: 'short' });
@@ -4082,8 +4069,9 @@
                     doc.text(`Página ${i} de ${totalPages}`, pageWidth - margen - 40, pageHeight - 10);
                 }
 
-                const nombreArchivo = `reporte_${reporte.categoriaPrincipal}_${reporte.id}_${reporte.fecha.replace(/\//g, '-')}.pdf`;
+                const nombreArchivo = `reporte_${reporte.categoriaPrincipal}_${reporte.id}_${(reporte.fecha || '').replace(/\//g, '-')}.pdf`;
                 doc.save(nombreArchivo);
+
             } catch (error) {
                 console.error("Error al generar el PDF:", error);
                 alert("Error al generar el reporte. Por favor, intenta de nuevo.");
